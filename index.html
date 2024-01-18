@@ -1,0 +1,69 @@
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>To Do List - Nader Fares</title>
+      <!-- <https://electronjs.org/docs/tutorial/security#csp-meta-tag> -->
+      <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+      <!--Importo o a fonte Roboto do Google Fonts -->
+			<link href="<https://fonts.googleapis.com/css2?family=Roboto&display=swap>" rel="stylesheet">
+      <link rel="stylesheet" href="path/to/fontawesome/css/all.min.css">
+      <link rel="stylesheet" href="style.css">
+   </head>
+   <body>
+      <div class="container">
+          <div class="container-header">
+            <h1>📌 Today</h1>
+            <p id="currentDate">18 de Janeiro</p>
+          </div>
+          <div class="container-body">
+            <ul id="taskList"></ul>
+          </div>
+          <div class="container-footer">
+            <input type="text" id="taskInput" placeholder="New Task">
+            <span onclick="addTask()">Add</span>
+          </div>
+      </div>
+      <script>
+        console.log(" ---> Lendo o arquivo todos.js");
+         
+         let tasks = [];
+
+          function addTask() {
+              const taskInput = document.getElementById('taskInput');
+              const taskList = document.getElementById('taskList');
+
+              if (taskInput.value.trim() !== '') {
+                  const task = {
+                      id: new Date().getTime(),
+                      text: taskInput.value.trim()
+                  };
+
+                  tasks.push(task);
+                  renderTasks();
+                  taskInput.value = '';
+              }
+          }
+
+          function removeTask(id) {
+              tasks = tasks.filter(task => task.id !== id);
+              renderTasks();
+          }
+
+          function renderTasks() {
+              const taskList = document.getElementById('taskList');
+              taskList.innerHTML = '';
+
+              tasks.forEach(task => {
+                  const listItem = document.createElement('li');
+                  listItem.innerHTML = `
+                      <span>${task.text}</span>
+                      <span id="remove-btn" onclick="removeTask(${task.id})">
+                        Delete
+                      </span>
+                  `;
+                  taskList.appendChild(listItem);
+              });
+          }
+      </script>
+   </body>
+</html>
